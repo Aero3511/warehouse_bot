@@ -36,10 +36,31 @@ def start(update: Update, context: CallbackContext):
 
 
 def create_operator(update: Update, context: CallbackContext):
-    print(update.message.text)
+    id = update.message.text
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Введите фамилию: ")
+    fio = update.message.text
+    if (verify_operator(id, fio)):
+        print('Оператор найден')
 
-    #cursor.execute('SELECT name FROM users WHERE id = ')
-    #cursor.close()
+
+# Функция для проверки существования оператора в БД
+# Возможно стоит потом заменить при рефакторинге на проверку по контакту в телеграме
+# TODO добавить обработку фамилии по фильтрам
+# TODO доделать запрос
+def verify_operator(id, fio):
+    if (id and fio):
+        sql_connection = sqlite3.connect('./db/test.db')
+        cursor = sql_connection.cursor()
+        query = "SELECT * FROM users WHERE id = '" + id + " AND WHERE fio = '" + fio + "';"
+        cursor.execute(query)
+        if (cursor.fetchone()):
+            cursor.close()
+            return 1
+        else:
+            quit()
+
+
+
 
 start_handler = CommandHandler('start', start)
 mes_handler = MessageHandler(~Filters.command, create_operator)

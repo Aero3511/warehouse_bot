@@ -1,13 +1,7 @@
-import telegram
-
 import bot_tkn
 import sqlite3
-from telegram.ext import Updater
 import logging
-from telegram import Update
-from telegram.ext import CallbackContext
-from telegram.ext import CommandHandler
-from telegram.ext import MessageHandler, Filters
+from telegram.ext import *
 
 
 # Инициализация подключения к БД
